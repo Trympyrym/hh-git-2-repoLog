@@ -1,0 +1,13 @@
+1) to make repo containing frontik/testing only
+git clone https://github.com/hhru/frontik frontik-testing-only
+cd frontik-testing-only
+git filter-branch --prune-empty --subdirectory-filter frontik/testing
+#optional - moving from root of repo to frontik/testing
+git filter-branch -f --prune-empty --tree-filter 'mkdir frontik; cd frontik; mkdir testing; cd ..; git ls-tree --name-only $GIT_COMMIT | xargs -I files mv files frontik/testing' HEAD
+
+
+
+2) to make repo without testing
+git clone https://github.com/hhru/frontik frontik-without-testing
+cd frontik-without-testing
+git filter-branch --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch frontik/testing' HEAD
